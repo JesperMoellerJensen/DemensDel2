@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemensDel2.Models
 {
     public class User
     {
+        [ForeignKey("Log")]
         public long Id { get; set; }
 
         //Reference to User Identity data
@@ -20,6 +22,6 @@ namespace DemensDel2.Models
         public string Address { get; set; }
         public int ZipCode { get; set; }
 
-        public Log Log { get; set; }
+        public virtual Log Log { get; set; }
     }
 }
