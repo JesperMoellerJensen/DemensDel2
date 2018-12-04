@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemensDel2.Models
 {
     public class User
     {
-        public long Id { get; set; }
+        // Primary Key
+        public int Id { get; set; }
 
         //Reference to User Identity data
         public string UserIdentityID { get; set; }
@@ -20,6 +22,7 @@ namespace DemensDel2.Models
         public string Address { get; set; }
         public int ZipCode { get; set; }
 
-        public Log Log { get; set; }
+        // Navigation properties
+        public virtual Log Log { get; set; }
     }
 }

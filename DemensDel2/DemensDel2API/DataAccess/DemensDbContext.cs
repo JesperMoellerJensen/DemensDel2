@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using DemensDel2.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace DemensDel2API.Models
+namespace DemensDel2API.DataAccess
 {
     public class DemensDbContext : DbContext
     {
@@ -18,5 +15,10 @@ namespace DemensDel2API.Models
         public DbSet<TrainingSession> TrainingSessions { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
     }
 }
