@@ -9,8 +9,8 @@ namespace DemensDel2.Models
 {
     public class User
     {
-        [ForeignKey("Log")]
-        public long Id { get; set; }
+        // Primary Key
+        public int Id { get; set; }
 
         //Reference to User Identity data
         public string UserIdentityID { get; set; }
@@ -22,6 +22,7 @@ namespace DemensDel2.Models
         public string Address { get; set; }
         public int ZipCode { get; set; }
 
+        // Navigation properties
         public virtual Log Log { get; set; }
     }
 }

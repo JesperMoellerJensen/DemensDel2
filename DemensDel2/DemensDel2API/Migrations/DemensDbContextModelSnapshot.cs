@@ -21,7 +21,7 @@ namespace DemensDel2API.Migrations
 
             modelBuilder.Entity("DemensDel2.Models.Exercise", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -29,11 +29,11 @@ namespace DemensDel2API.Migrations
 
                     b.Property<double>("ExecutionRate");
 
-                    b.Property<long?>("ExerciseTypeId");
+                    b.Property<int?>("ExerciseTypeId");
 
                     b.Property<int>("PaintLevel");
 
-                    b.Property<long?>("TrainingSessionId");
+                    b.Property<int?>("TrainingSessionId");
 
                     b.HasKey("Id");
 
@@ -46,7 +46,7 @@ namespace DemensDel2API.Migrations
 
             modelBuilder.Entity("DemensDel2.Models.ExerciseType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -67,26 +67,29 @@ namespace DemensDel2API.Migrations
 
             modelBuilder.Entity("DemensDel2.Models.Log", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("UserForeignKey");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("DemensDel2.Models.TrainingSession", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<long?>("LogId");
+                    b.Property<int?>("LogId");
 
                     b.HasKey("Id");
 
@@ -97,7 +100,9 @@ namespace DemensDel2API.Migrations
 
             modelBuilder.Entity("DemensDel2.Models.User", b =>
                 {
-                    b.Property<long>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
 
@@ -129,19 +134,19 @@ namespace DemensDel2API.Migrations
                         .HasForeignKey("TrainingSessionId");
                 });
 
+            modelBuilder.Entity("DemensDel2.Models.Log", b =>
+                {
+                    b.HasOne("DemensDel2.Models.User", "User")
+                        .WithOne("Log")
+                        .HasForeignKey("DemensDel2.Models.Log", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DemensDel2.Models.TrainingSession", b =>
                 {
                     b.HasOne("DemensDel2.Models.Log", "Log")
                         .WithMany("TrainingSessions")
                         .HasForeignKey("LogId");
-                });
-
-            modelBuilder.Entity("DemensDel2.Models.User", b =>
-                {
-                    b.HasOne("DemensDel2.Models.Log", "Log")
-                        .WithOne("User")
-                        .HasForeignKey("DemensDel2.Models.User", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
