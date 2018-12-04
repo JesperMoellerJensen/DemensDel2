@@ -11,8 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
-using DemensDel2API.Models;
+
 
 namespace DemensDel2API
 {
@@ -40,11 +39,6 @@ namespace DemensDel2API
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<DemensDbContext>(options =>
-            {
-                var connectionString = configuration.GetConnectionString("UserDbContext");
-                options.UseSqlServer(connectionString);
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
