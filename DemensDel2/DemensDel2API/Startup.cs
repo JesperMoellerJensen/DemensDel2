@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DemensDel2API.DataAccess;
+using AutoMapper;
 
 namespace DemensDel2API
 {
@@ -35,6 +36,10 @@ namespace DemensDel2API
                 options.UseSqlServer(connectionString);
             });
 
+            //Mapper.Initialize(cfg => {
+            //    cfg.CreateMap<User, UserDTO>();
+            //    cfg.CreateMap<UserDTO, User>();
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
