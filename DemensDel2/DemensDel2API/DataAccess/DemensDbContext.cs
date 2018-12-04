@@ -14,5 +14,9 @@ namespace DemensDel2API.Models
             //Database.EnsureCreated();
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<TrainingSession> TrainingSessions { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExerciseType> ExerciseTypes { get; set; }
     }
 }
