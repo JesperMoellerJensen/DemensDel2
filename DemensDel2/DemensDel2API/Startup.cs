@@ -9,21 +9,33 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using DemensDel2API.Models;
 
 namespace DemensDel2API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfigurationRoot configuration;
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+                configuration = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonFile(env.ContentRootPath + "/config.json")
+                .AddJsonFile(env.ContentRootPath + "/config.development.json", true)
+                .Build();
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<DemensDbContext>(options =>
+            //{
+            //    var connectionString = configuration.GetConnectionString("DemensDbContext");
+            //    options.UseSqlServer(connectionString);
+            //});
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
