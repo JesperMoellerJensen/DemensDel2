@@ -1,4 +1,5 @@
-﻿using DemensDel2.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using DemensDel2.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemensDel2API.DataAccess
@@ -14,5 +15,10 @@ namespace DemensDel2API.DataAccess
         public DbSet<TrainingSession> TrainingSessions { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
     }
 }
