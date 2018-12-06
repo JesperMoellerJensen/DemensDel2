@@ -3,4 +3,65 @@
     ViewData["Title"] = "User";
 }
 
-@Model.Name
+<div class="UserInfo">
+    <dl class="dl-horizontal">
+        <dt>
+            Navn
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Name)
+        </dd>
+        <dt>
+            Alder
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Age)
+        </dd>
+        <dt>
+            Tlf
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.TelephoneNumber)
+        </dd>
+        <dt>
+            By
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.City)
+        </dd>
+        <dt>
+            Postnummer
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.ZipCode)
+        </dd>
+        <dt>
+            Adresse
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Address)
+        </dd>
+    </dl>
+</div>
+
+<div class="ExerciseGraph">
+    I AM A GRAPH
+</div>
+
+<div class="ExerciseList">
+    @foreach (var item in Model.Log.TrainingSessions)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)<br/>                    
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Exercises.Count)<br/>                    
+            </td>
+            <td>                 
+                @Html.DisplayFor(modelItem => item.Percent)<br/>
+            </td>
+
+        </tr>
+    }
+</div>

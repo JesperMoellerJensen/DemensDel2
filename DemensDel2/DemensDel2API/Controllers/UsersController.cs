@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DemensDel2API.DataAccess;
 using DemensDel2.Models;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,7 +32,12 @@ namespace DemensDel2API.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            return _context.Users.Single(x => x.Id == id);
+            User user = _context.Users
+                .Include(u => u.Log)
+                .ThenInclude(x => x.TrainingSessions)
+                .Single(u => u.Id == id);
+
+            return user;
         }
 
         // POST api/<controller>
