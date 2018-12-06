@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DemensDel2.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemensDel2.Controllers
@@ -10,11 +11,11 @@ namespace DemensDel2.Controllers
     public class UserController : Controller
     {
 
-        private string baseUrl = "http://localhost:55205/api/values";
+        private string baseUrl = "http://localhost:55205/api/user";
         public async Task<IActionResult> Index()
         {
-            List<string> values = new List<string>();
-            string apiUrl = baseUrl;
+            User user = new User();
+            string apiUrl = baseUrl + "/1";
 
             using (HttpClient client = new HttpClient())
             {
@@ -26,10 +27,10 @@ namespace DemensDel2.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    values = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(data);
+                    user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
                 }
             }
-            return View(values);
+            return View(user);
         }
 
 

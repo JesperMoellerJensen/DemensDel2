@@ -11,11 +11,11 @@ using DemensDel2.Models;
 namespace DemensDel2API.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly DemensDbContext _context;
 
-        public UserController(DemensDbContext context)
+        public UsersController(DemensDbContext context)
         {
             _context = context;
         }
