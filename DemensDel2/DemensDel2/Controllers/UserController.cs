@@ -18,9 +18,8 @@ namespace DemensDel2.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var obj = await HttpClientHelper.HttpAPIRequest(baseUrl);
-
-            User user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(obj.ToString());
+            string response = await HttpClientHelper.HttpAPIRequest(baseUrl);
+            User user = JsonConvert.DeserializeObject<User>(response);
 
             return View(user);
 

@@ -11,9 +11,10 @@ namespace DemensDel2.Helpers
 
     public class HttpClientHelper
     {
-        public static async Task<object> HttpAPIRequest(string apiUrl)
+        public static async Task<string> HttpAPIRequest(string apiUrl)
         {
             object responseObject = new object();
+            string data = null;
 
             using (HttpClient client = new HttpClient())
             {
@@ -25,12 +26,12 @@ namespace DemensDel2.Helpers
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
-                    string data = await response.Content.ReadAsStringAsync();
+                    data = await response.Content.ReadAsStringAsync();
                     responseObject = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(data);
                 }
             }
 
-            return responseObject;
+            return data;
         }
     }
 }
