@@ -11,7 +11,7 @@ namespace DemensDel2.Models
         // Primary Key
         public int Id { get; set; }
 
-        public double Percent => Exercises.Sum(e => e.ExecutionRate) / Exercises.Count;
+        public double Percent = 1;
         public DateTime Date { get; set; }
 
         // Navigation properties

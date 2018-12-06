@@ -3,34 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DemensDel2.Helpers;
 using DemensDel2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        private string baseUrl = "http://localhost:55205/api/users";
+        private string baseUrl = "http://localhost:55205/api/users/1";
+
 
         public async Task<IActionResult> Index()
         {
-            User user = new User();
-            string apiUrl = baseUrl + "/1";
 
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var obj = await HttpClientHelper.HttpAPIRequest(baseUrl);
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await response.Content.ReadAsStringAsync();
-                    user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
-                }
-            }
+            User user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(obj.ToString());
+
             return View(user);
+
+            //User user = new User();
+            //string apiUrl = baseUrl + "/1";
+
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(apiUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var data = await response.Content.ReadAsStringAsync();
+            //        user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
+            //    }
+            //}
+            //return View(user);
         }
 
 
