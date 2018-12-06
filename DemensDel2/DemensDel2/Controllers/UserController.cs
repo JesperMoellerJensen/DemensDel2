@@ -84,5 +84,38 @@ namespace DemensDel2.Controllers
         //    return View();
         //}
 
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Exercise(int id)
+            public IActionResult Exercise(int id)
+        {
+            ExerciseDTO exercise = new ExerciseDTO() {
+                PaintLevel = 23,
+                Effort = 21,
+                ExecutionRate = 21,
+                Name = "Arm løftning",
+                Duration = 20,
+                Difficulty = 4,
+                Description = "Løft begge arme",
+                MuscleGroup = "Arme"
+            };
+
+            //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
+
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(apiUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var data = await response.Content.ReadAsStringAsync();
+            //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
+            //    }
+            //}
+            return View(exercise);
+        }
+
     }
 }
