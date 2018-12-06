@@ -10,8 +10,8 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
+        private string baseUrl = "http://localhost:55205/api/values";
 
-        private string baseUrl = "http://localhost:55205/api/user";
         public async Task<IActionResult> Index()
         {
             User user = new User();
