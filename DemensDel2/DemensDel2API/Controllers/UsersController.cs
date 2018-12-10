@@ -32,12 +32,7 @@ namespace DemensDel2API.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            User user = _context.Users
-                .Include(u => u.Log)
-                .ThenInclude(x => x.TrainingSessions)
-                .Single(u => u.Id == id);
-
-            return user;
+            return _context.Users.Single(u => u.Id == id);
         }
 
         // POST api/<controller>
@@ -52,7 +47,7 @@ namespace DemensDel2API.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return CreatedAtAction("GET", new { id = user.Id});
+            return CreatedAtAction("GET", new { id = user.Id });
 
         }
 

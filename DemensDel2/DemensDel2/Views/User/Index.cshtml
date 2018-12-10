@@ -49,19 +49,4 @@
 </div>
 
 <div class="ExerciseList">
-    @foreach (var item in Model.Log.TrainingSessions)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)<br/>                    
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Exercises.Count)<br/>                    
-            </td>
-            <td>                 
-                @Html.DisplayFor(modelItem => item.Percent)<br/>
-            </td>
-
-        </tr>
-    }
 </div>
