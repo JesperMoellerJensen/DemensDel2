@@ -87,17 +87,54 @@ namespace DemensDel2.Controllers
         //[HttpGet("{id}")]
         //public async Task<IActionResult> Exercise(int id)
             public IActionResult Exercise(int id)
-        {
-            ExerciseDTO exercise = new ExerciseDTO() {
-                PaintLevel = 23,
-                Effort = 21,
-                ExecutionRate = 21,
-                Name = "Arm løftning",
-                Duration = 20,
-                Difficulty = 4,
-                Description = "Løft begge arme",
-                MuscleGroup = "Arme"
+            {
+
+            TrainingSession t = new TrainingSession()
+            {
+                Date = DateTime.Now,
+                Exercises = new List<Exercise>()
+                {
+                    new Exercise()
+                    {
+                        PaintLevel = 23,
+                        Effort = 21,
+                        ExecutionRate = 21,
+                        ExerciseType = new ExerciseType()
+                        {
+                            Name = "Arm løftning",
+                            Duration = 20,
+                            Difficulty = 4,
+                            Description = "Løft begge arme",
+                            MuscleGroup = "Arme"
+                        }
+                    },
+                    new Exercise()
+                    {
+                        PaintLevel = 17,
+                        Effort = 12,
+                        ExecutionRate = 70,
+                        ExerciseType = new ExerciseType()
+                        {
+                            Name = "Ben løftning",
+                            Duration = 12,
+                            Difficulty = 4,
+                            Description = "Løft begge ben",
+                            MuscleGroup = "Ben"
+                        }
+                    }
+                },
+                Log = null
             };
+            //ExerciseDTO exercise = new ExerciseDTO() {
+            //    PaintLevel = 23,
+            //    Effort = 21,
+            //    ExecutionRate = 21,
+            //    Name = "Arm løftning",
+            //    Duration = 20,
+            //    Difficulty = 4,
+            //    Description = "Løft begge arme",
+            //    MuscleGroup = "Arme"
+            //};
 
             //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
 
@@ -114,7 +151,7 @@ namespace DemensDel2.Controllers
             //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
             //    }
             //}
-            return View(exercise);
+            return View(t);
         }
 
     }
