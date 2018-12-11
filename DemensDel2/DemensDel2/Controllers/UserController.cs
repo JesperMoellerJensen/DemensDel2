@@ -17,17 +17,36 @@ namespace DemensDel2.Controllers
             int id = 1;
             string baseUrl = "http://localhost:55205/api/users";
             string APIUrl = $"{baseUrl}/{id}";
-            string response = await HttpClientHelper.HttpAPIRequest(APIUrl);
+            string response = await HttpClientHelper.ApiGet(APIUrl);
             User user = JsonConvert.DeserializeObject<User>(response);
 
-            baseUrl = "http://localhost:55205/api/TrainingSessions/log";
+            baseUrl = "http://localhost:55205/api/TrainingSessions/user";
             APIUrl = $"{baseUrl}/{id}";
-            response = await HttpClientHelper.HttpAPIRequest(APIUrl);
+            response = await HttpClientHelper.ApiGet(APIUrl);
 
             user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
 
             return View(user);
 
+        }
+
+        [HttpPost]
+        public string CreateTrainingSession(DateTime date)
+        {
+            string APIUrl = "http://localhost:55205/api/TrainingSessions";
+            ;
+
+            TrainingSession trainingSession = new TrainingSession
+            {
+                Date = date,
+                User = new User
+                {
+                    Id = 1
+                }
+            };
+
+            HttpClientHelper.ApiPost(APIUrl,trainingSession);
+            return "hej";
         }
 
 

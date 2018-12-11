@@ -47,8 +47,8 @@ namespace DemensDel2API.Controllers
             return Ok(trainingSession);
         }
 
-        // GET: api/TrainingSessions/log/5
-        [HttpGet("log/{id}")]
+        // GET: api/TrainingSessions/user/5
+        [HttpGet("user/{id}")]
         public IEnumerable<TrainingSession> GetTrainingSessionsFromUserId([FromRoute] int id)
         {
             List<TrainingSession> trainingSessions = _context.TrainingSessions.Where(l => l.User.Id == id).ToList();

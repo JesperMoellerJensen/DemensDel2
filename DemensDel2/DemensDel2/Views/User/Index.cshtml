@@ -1,4 +1,5 @@
-﻿@model User
+﻿@using Microsoft.AspNetCore.Rewrite.Internal
+@model User
 @{
     ViewData["Title"] = "User";
 }
@@ -49,16 +50,23 @@
 </div>
 
 <div class="ExerciseList">
+    <form action='@Url.Action("CreateTrainingSession","User")' method="post">
+        <input type="date" name="date" />
+        <input type="submit" value="Opret træningssession" />
+    </form>
+
     @foreach (var item in Model.TrainingSessions)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)<br/>                    
-            </td>
-            <td>                 
-                @Html.DisplayFor(modelItem => item.Percent)<br/>
-            </td>
+        <a>
+            <tr>
+                <td>
+                    @item.Date.Date.ToString("d")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Percent)<br />
+                </td>
 
-        </tr>
+            </tr>
+        </a>
     }
 </div>

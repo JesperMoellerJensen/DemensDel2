@@ -1,0 +1,20 @@
+﻿.UserInfo {
+    float: left;
+    background: grey; 
+}
+
+.ExerciseGraph {
+    display: block;
+    float: left;
+    width: 400px;
+    height: 300px;
+    margin: 0 20px;
+    background: gold;
+}
+
+.ExerciseList {
+    display: block;
+    float: left;
+    width: 300px;
+    background: grey;
+}
