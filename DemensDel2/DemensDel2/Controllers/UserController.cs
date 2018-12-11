@@ -121,7 +121,6 @@ namespace DemensDel2.Controllers
                         }
                     }
                 },
-                Log = null
             };
             //ExerciseDTO exercise = new ExerciseDTO() {
             //    PaintLevel = 23,
