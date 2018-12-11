@@ -15,7 +15,7 @@ namespace DemensDel2.Models
         public DateTime Date { get; set; }
 
         // Navigation properties
-        public virtual Log Log { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<Exercise> Exercises { get; set; }
     }
 }

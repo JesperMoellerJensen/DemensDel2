@@ -23,6 +23,6 @@ namespace DemensDel2.Models
         public int ZipCode { get; set; }
 
         // Navigation properties
-        public virtual Log Log { get; set; }
+        public virtual ICollection<TrainingSession> TrainingSessions { get; set; }
     }
 }

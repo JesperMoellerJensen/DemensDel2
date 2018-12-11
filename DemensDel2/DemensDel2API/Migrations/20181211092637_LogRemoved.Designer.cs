@@ -4,14 +4,16 @@ using DemensDel2API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemensDel2API.Migrations
 {
     [DbContext(typeof(DemensDbContext))]
-    partial class DemensDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181211092637_LogRemoved")]
+    partial class LogRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

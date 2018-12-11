@@ -12,34 +12,22 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        private string baseUrl = "http://localhost:55205/api/users/1";
-
-
         public async Task<IActionResult> Index()
         {
-
-            string response = await HttpClientHelper.HttpAPIRequest(baseUrl);
+            int id = 1;
+            string baseUrl = "http://localhost:55205/api/users";
+            string APIUrl = $"{baseUrl}/{id}";
+            string response = await HttpClientHelper.HttpAPIRequest(APIUrl);
             User user = JsonConvert.DeserializeObject<User>(response);
+
+            baseUrl = "http://localhost:55205/api/TrainingSessions/log";
+            APIUrl = $"{baseUrl}/{id}";
+            response = await HttpClientHelper.HttpAPIRequest(APIUrl);
+
+            user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
 
             return View(user);
 
-            //User user = new User();
-            //string apiUrl = baseUrl + "/1";
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(apiUrl);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var data = await response.Content.ReadAsStringAsync();
-            //        user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
-            //    }
-            //}
-            //return View(user);
         }
 
 
@@ -95,9 +83,10 @@ namespace DemensDel2.Controllers
 
         //[HttpGet("{id}")]
         //public async Task<IActionResult> Exercise(int id)
-            public IActionResult Exercise(int id)
+        public IActionResult Exercise(int id)
         {
-            ExerciseDTO exercise = new ExerciseDTO() {
+            ExerciseDTO exercise = new ExerciseDTO()
+            {
                 PaintLevel = 23,
                 Effort = 21,
                 ExecutionRate = 21,

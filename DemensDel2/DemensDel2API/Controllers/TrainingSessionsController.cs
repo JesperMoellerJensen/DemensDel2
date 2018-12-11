@@ -47,6 +47,15 @@ namespace DemensDel2API.Controllers
             return Ok(trainingSession);
         }
 
+        // GET: api/TrainingSessions/log/5
+        [HttpGet("log/{id}")]
+        public IEnumerable<TrainingSession> GetTrainingSessionsFromUserId([FromRoute] int id)
+        {
+            List<TrainingSession> trainingSessions = _context.TrainingSessions.Where(l => l.User.Id == id).ToList();
+
+            return trainingSessions;
+        }
+
         // PUT: api/TrainingSessions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrainingSession([FromRoute] int id, [FromBody] TrainingSession trainingSession)
