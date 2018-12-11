@@ -1,0 +1,77 @@
+﻿@model DemensDel2.Models.TrainingSession
+
+
+@{
+    ViewData["Title"] = "Exercise";
+}
+
+<div>
+    <h2>Træningsektion - Dato</h2>
+    @foreach (var e in Model.Exercises)
+    {
+        <a href="">@e.ExerciseType.Name</a>
+    }
+</div>
+
+
+@*<h2>@Model.Name</h2>
+
+<div id="">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Beskrivelse:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            MuskelGruppe
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MuscleGroup)
+        </dd>
+
+        <dt>
+            Sværhedsgrad:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Difficulty)
+        </dd>
+
+        <dt>
+            TidsVarighed:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <h3>Resultat</h3>
+        <hr />
+       
+        <dt>
+            UførelsesProcent:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExecutionRate)
+        </dd>
+        <dt>
+            SmerteNiveau:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PaintLevel)
+        </dd>
+        <dt>
+            Indsats:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Effort)
+        </dd>
+    </dl>
+</div>*@
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Tilbage til listen</a>
+</div>

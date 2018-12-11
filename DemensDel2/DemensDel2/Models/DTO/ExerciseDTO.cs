@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DemensDel2.Models
 {
-    public class ExerciseType
+    public class ExerciseDTO
     {
-        // Primary Key
-        public int Id { get; set; }
-
+        public double ExecutionRate { get; set; }
+        public int PaintLevel { get; set; }
+        public int Effort { get; set; }
         public string Name { get; set; }
         public float Duration { get; set; }
         public string Description { get; set; }
