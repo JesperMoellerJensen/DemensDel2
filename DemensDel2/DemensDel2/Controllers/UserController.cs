@@ -3,33 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DemensDel2.Helpers;
+using DemensDel2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
+        private string baseUrl = "http://localhost:55205/api/users/1";
 
-        private string baseUrl = "http://localhost:55205/api/values";
+
         public async Task<IActionResult> Index()
         {
-            List<string> values = new List<string>();
-            string apiUrl = baseUrl;
 
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var obj = await HttpClientHelper.HttpAPIRequest(baseUrl);
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await response.Content.ReadAsStringAsync();
-                    values = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(data);
-                }
-            }
-            return View(values);
+            User user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(obj.ToString());
+
+            return View(user);
+
+            //User user = new User();
+            //string apiUrl = baseUrl + "/1";
+
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(apiUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var data = await response.Content.ReadAsStringAsync();
+            //        user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(data);
+            //    }
+            //}
+            //return View(user);
         }
 
 
@@ -82,6 +93,76 @@ namespace DemensDel2.Controllers
 
         //    return View();
         //}
+
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Exercise(int id)
+            public IActionResult Exercise(int id)
+            {
+
+            TrainingSession t = new TrainingSession()
+            {
+                Date = DateTime.Now,
+                Exercises = new List<Exercise>()
+                {
+                    new Exercise()
+                    {
+                        PaintLevel = 23,
+                        Effort = 21,
+                        ExecutionRate = 21,
+                        ExerciseType = new ExerciseType()
+                        {
+                            Name = "Arm løftning",
+                            Duration = 20,
+                            Difficulty = 4,
+                            Description = "Løft begge arme",
+                            MuscleGroup = "Arme"
+                        }
+                    },
+                    new Exercise()
+                    {
+                        PaintLevel = 17,
+                        Effort = 12,
+                        ExecutionRate = 70,
+                        ExerciseType = new ExerciseType()
+                        {
+                            Name = "Ben løftning",
+                            Duration = 12,
+                            Difficulty = 4,
+                            Description = "Løft begge ben",
+                            MuscleGroup = "Ben"
+                        }
+                    }
+                },
+                Log = null
+            };
+            //ExerciseDTO exercise = new ExerciseDTO() {
+            //    PaintLevel = 23,
+            //    Effort = 21,
+            //    ExecutionRate = 21,
+            //    Name = "Arm løftning",
+            //    Duration = 20,
+            //    Difficulty = 4,
+            //    Description = "Løft begge arme",
+            //    MuscleGroup = "Arme"
+            //};
+
+            //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
+
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(apiUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var data = await response.Content.ReadAsStringAsync();
+            //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
+            //    }
+            //}
+            return View(t);
+        }
 
     }
 }

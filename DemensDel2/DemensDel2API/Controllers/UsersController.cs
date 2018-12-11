@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DemensDel2API.DataAccess;
 using DemensDel2.Models;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DemensDel2API.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly DemensDbContext _context;
 
-        public UserController(DemensDbContext context)
+        public UsersController(DemensDbContext context)
         {
             _context = context;
         }
@@ -31,7 +32,7 @@ namespace DemensDel2API.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            return _context.Users.Single(x => x.Id == id);
+            return _context.Users.Single(u => u.Id == id);
         }
 
         // POST api/<controller>
@@ -46,7 +47,7 @@ namespace DemensDel2API.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return CreatedAtAction("GET", new { id = user.Id});
+            return CreatedAtAction("GET", new { id = user.Id });
 
         }
 
