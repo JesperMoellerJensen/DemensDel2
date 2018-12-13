@@ -50,23 +50,10 @@
 </div>
 
 <div class="ExerciseList">
-    <form action='@Url.Action("CreateTrainingSession","User")' method="post">
-        <input type="date" name="date" />
-        <input type="submit" value="Opret træningssession" />
-    </form>
-
     @foreach (var item in Model.TrainingSessions)
     {
-        <a>
-            <tr>
-                <td>
-                    @item.Date.Date.ToString("d")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Percent)<br />
-                </td>
-
-            </tr>
-        </a>
+    <a href="@Url.Action("Trainingssession", "User", new { Id = item.Id })">
+        @item.Date.Date.ToString("d")
+    </a>
     }
 </div>

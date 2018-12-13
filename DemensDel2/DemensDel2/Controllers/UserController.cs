@@ -27,95 +27,31 @@ namespace DemensDel2.Controllers
             User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
             user.TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "");
-            //string baseUrl = "http://localhost:55205/api/users";
-            //string APIUrl = $"{baseUrl}/{id}";
-
-            //string response = await HttpClientHelper.ApiGet(APIUrl);
-            //User user = JsonConvert.DeserializeObject<User>(response);
-
-            //baseUrl = "http://localhost:55205/api/TrainingSessions/user";
-            //APIUrl = $"{baseUrl}/{id}";
-            //response = await HttpClientHelper.ApiGet(APIUrl);
-
-            //user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
-
             return View(user);
-
         }
 
         [HttpPost]
-        public string CreateTrainingSession(DateTime date)
+        public IActionResult Index(DateTime date)
         {
-            //string APIUrl = "http://localhost:55205/api/TrainingSessions";
-            
+            //if (!ModelState.IsValid)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Data invalid");
+            //    return View();
+            //}
+            //int id = 1;
+
+            //User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
             //TrainingSession trainingSession = new TrainingSession
             //{
             //    Date = date,
-            //    User = new User
-            //    {
-            //        Id = 1
-            //    }
+            //    User = user
             //};
 
-            //HttpClientHelper.ApiPost(APIUrl,trainingSession);
-            return "hej";
+
+            //_httpClientHelper.Post<TrainingSession>(trainingSession, "TrainingSessions");
+            return RedirectToAction("Index");
         }
-
-
-        //[HttpPost]
-        //public IActionResult Bid(AuctionItem auctionItem)
-        //{
-        //    string message = "";
-        //    Bid bid = new Bid()
-        //    {
-        //        ItemNumber = auctionItem.ItemNumber,
-        //        CustomName = auctionItem.BidCustomName,
-        //        CustomPhone = auctionItem.BidCustomPhone,
-        //        Price = auctionItem.BidPrice
-        //    };
-
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.BaseAddress = new Uri(baseUrl);
-
-        //        //HTTP POST
-        //        var postTask = client.PostAsJsonAsync<Bid>("auction", bid); //1 argument is name of api controller
-        //        postTask.Wait();
-        //        message = postTask.Result.StatusCode.ToString();
-        //        var result = postTask.Result;
-
-        //        if (result.IsSuccessStatusCode)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
-        //        {
-        //            message = "Wrong info, try again";
-        //        }
-        //        else if (result.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
-        //        {
-        //            message = "Bid to low";
-        //        }
-        //        else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
-        //        {
-        //            message = "Item not found";
-        //        }
-        //        else
-        //        {
-        //            message = "Error, try again";
-        //        }
-
-        //    }
-
-        //    ModelState.AddModelError(string.Empty, "Something went wrong: " + message);
-
-        //    return View();
-        //}
-
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Exercise(int id)
-
         
         //[HttpGet("User/Exercise/{id}")]
         public IActionResult Exercise(int id)

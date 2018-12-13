@@ -12,6 +12,7 @@ namespace DemensDel2.Models
         public int Id { get; set; }
 
         public double Percent = 1;
+
         public DateTime Date { get; set; }
 
         [Timestamp]
