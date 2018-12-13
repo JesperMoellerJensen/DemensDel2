@@ -51,10 +51,17 @@ namespace DemensDel2API.Controllers
         [HttpGet("user/{id}")]
         public IEnumerable<TrainingSession> GetTrainingSessionsFromUserId([FromRoute] int id)
         {
-            List<TrainingSession> trainingSessions = _context.TrainingSessions.Where(l => l.User.Id == id).ToList();
+            var utr =_context.UserTrainingSessionRelations.Where(x => x.UserId == id);
+
+            List<TrainingSession> trainingSessions = new List<TrainingSession>();
+            foreach (var relation in utr)
+            {
+                TrainingSession trainingSession =
+                    _context.TrainingSessions.First(x => x.Id == relation.TrainingSessionId);
+                trainingSessions.Add(trainingSession);
+            }
 
             return trainingSessions;
-
         }
 
         // PUT: api/TrainingSessions/5

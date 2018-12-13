@@ -6,14 +6,17 @@ namespace DemensDel2API.DataAccess
 {
     public class DemensDbContext : DbContext
     {
-        public DemensDbContext(DbContextOptions<DemensDbContext> options) : base(options) 
+        public DemensDbContext(DbContextOptions<DemensDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
+
         public DbSet<User> Users { get; set; }
         public DbSet<TrainingSession> TrainingSessions { get; set; }
+        public DbSet<UserTrainingSessionRelation> UserTrainingSessionRelations { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
+        public DbSet<ExerciseResult> ExerciseResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +28,10 @@ namespace DemensDel2API.DataAccess
                 .Property(p => p.RowVersion)
                 .IsRowVersion();
 
+            modelBuilder.Entity<UserTrainingSessionRelation>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
+
             modelBuilder.Entity<Exercise>()
                 .Property(p => p.RowVersion)
                 .IsRowVersion();
@@ -32,6 +39,16 @@ namespace DemensDel2API.DataAccess
             modelBuilder.Entity<ExerciseType>()
                 .Property(p => p.RowVersion)
                 .IsRowVersion();
+
+            modelBuilder.Entity<ExerciseResult>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
+
+            modelBuilder.Entity<UserTrainingSessionRelation>().HasKey(table => new
+            {
+                table.UserId,
+                table.TrainingSessionId
+            });
         }
     }
 }

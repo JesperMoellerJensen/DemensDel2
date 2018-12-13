@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using DemensDel2.Helpers;
 using DemensDel2.Models;
+using DemensDel2.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -26,8 +27,17 @@ namespace DemensDel2.Controllers
 
             User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
-            user.TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "");
-            return View(user);
+            UserWithTrainingSessionDTO userDto = new UserWithTrainingSessionDTO
+            {
+                Name = user.Name,
+                Address = user.Address,
+                Age = user.Age,
+                City = user.City,
+                TelephoneNumber = user.TelephoneNumber,
+                TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "")
+            };
+
+            return View(userDto);
         }
 
         [HttpPost]

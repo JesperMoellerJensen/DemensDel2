@@ -11,15 +11,9 @@ namespace DemensDel2.Models
         // Primary Key
         public int Id { get; set; }
 
-        public double Percent = 1;
-
         public DateTime Date { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
-
-        // Navigation properties
-        public virtual User User { get; set; }
-        public virtual ICollection<Exercise> Exercises { get; set; }
     }
 }
