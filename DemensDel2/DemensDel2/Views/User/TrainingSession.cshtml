@@ -8,7 +8,7 @@
     <h2>Træningsektion - Dato</h2>
     @foreach (var e in Model.ExerciseNames)
     {
-        <a href="@Url.Action("Exercise", "User", new { id = e.Key })">@e.Value</a>
+        <a href="@Url.Action("TrainingSession", "User", new { id = e.Key })">@e.Value</a>
     }
 </div>
 

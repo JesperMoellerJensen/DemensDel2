@@ -1,5 +1,6 @@
 {
     "ConnectionStrings": {
-        "DemensDbContext": "Server=(localdb)\\mssqllocaldb;Database=DemensDel2;Trusted_Connection=True;"
+        "DemensDbContext": "Server=(localdb)\\mssqllocaldb;Database=DemensDel2;Trusted_Connection=True;",
+        "DemensLoginDbContext": "Server=(localdb)\\mssqllocaldb;Database=DemensDel2_Identity;Trusted_Connection=True;"
     }
 }
