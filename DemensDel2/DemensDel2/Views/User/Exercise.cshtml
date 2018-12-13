@@ -1,4 +1,4 @@
-﻿@model DemensDel2.Models.TrainingSession
+﻿@model DemensDel2.Models.ExerciseDTO
 
 
 @{
@@ -7,16 +7,18 @@
 
 <div>
     <h2>Træningsektion - Dato</h2>
-    @foreach (var e in Model.Exercises)
+    @foreach (var e in Model.ExerciseNames)
     {
-        <a href="">@e.ExerciseType.Name</a>
+        <a href="@Url.Action("Exercise", "User", new { id = e.Key })">@e.Value</a>
     }
 </div>
 
+@if (Model.SlectedExercise != null)
+{
 
-@*<h2>@Model.Name</h2>
+<h2>@Model.SlectedExercise.ExerciseType.Name</h2>
 
-<div id="">
+<div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -24,28 +26,28 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.SlectedExercise.ExerciseType.Description)
         </dd>
 
         <dt>
             MuskelGruppe
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.MuscleGroup)
+            @Html.DisplayFor(model => model.SlectedExercise.ExerciseType.MuscleGroup)
         </dd>
 
         <dt>
             Sværhedsgrad:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Difficulty)
+            @Html.DisplayFor(model => model.SlectedExercise.ExerciseType.Difficulty)
         </dd>
 
         <dt>
             TidsVarighed:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Duration)
+            @Html.DisplayFor(model => model.SlectedExercise.ExerciseType.Duration)
         </dd>
 
         <h3>Resultat</h3>
@@ -55,23 +57,24 @@
             UførelsesProcent:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ExecutionRate)
+            @Html.DisplayFor(model => model.SlectedExercise.ExecutionRate)
         </dd>
         <dt>
             SmerteNiveau:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PaintLevel)
+            @Html.DisplayFor(model => model.SlectedExercise.PaintLevel)
         </dd>
         <dt>
             Indsats:
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Effort)
+            @Html.DisplayFor(model => model.SlectedExercise.Effort)
         </dd>
     </dl>
-</div>*@
+</div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Tilbage til listen</a>
 </div>
+}

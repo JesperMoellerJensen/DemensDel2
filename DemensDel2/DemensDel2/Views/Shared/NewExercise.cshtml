@@ -1,0 +1,34 @@
+﻿@model DemensDel2.Models.DTO.NewExercise
+
+<fieldset class="NewExerciseFieldset">
+    <legend>Øvelse @Model.ExerciseNr</legend>
+    <form>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="form-group">
+            <label asp-for="ExecutionRate" class="control-label"></label>
+            <input asp-for="ExecutionRate" class="form-control" />
+            <span asp-validation-for="ExecutionRate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PaintLevel" class="control-label"></label>
+            <input asp-for="PaintLevel" class="form-control" />
+            <span asp-validation-for="PaintLevel" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Effort" class="control-label"></label>
+            <input asp-for="Effort" class="form-control" />
+            <span asp-validation-for="Effort" class="text-danger"></span>
+        </div>*@
+
+        <div class="form-group">
+            <label>ØvelsesType</label>
+            <select>
+                @foreach (var exerciseType in Model.ExerciseTypes)
+                {
+                    <option value="@exerciseType.Value">@exerciseType.Text</option>
+                }
+            </select>
+        </div>
+    </form>
+</fieldset>
+
