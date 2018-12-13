@@ -1,0 +1,43 @@
+﻿@model DemensDel2.Models.DTO.NewTrainingSession
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Admin</h2>
+
+<h4>Lav ny Træningssession</h4>
+<hr />
+<div id="MakeNewTrainingSession" class="row">
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="Admin" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+
+            <h2>Øvelser</h2>
+            <div id="ExerciseBoxList">
+                @Html.Partial("NewExercise", Model.NewExercise)
+            </div>
+
+            <button id="AddNewExerciseButton">Tilføj øvelse</button>
+
+            <div class="form-group">
+                <input type="submit" value="Opret træningssession" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  
+    <script type="text/javascript" src="~/js/AddExercise.js"></script>
+}

@@ -1,0 +1,36 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+}
+
+.NewExerciseFieldset{
+    width: 900px;
+    float: left;
+    height: auto;
+}
+.NewExerciseFieldset div{
+    width: 200px;
+    float:left;
+    margin-right: 5px;
+}
+.NewExerciseFieldset select{
+    float: left;
+    width: 100%;
+    height: 35px;
+}
+#MakeNewTrainingSession button, #MakeNewTrainingSession input[type = submit] {
+    margin: 10px 0; 
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+#MakeNewTrainingSession #AddNewExerciseButton {
+    background-color: #555555;
+}
+

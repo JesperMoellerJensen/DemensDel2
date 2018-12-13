@@ -12,19 +12,32 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        public async Task<IActionResult> Index()
+        private HttpClientHelper _httpClientHelper;
+
+        public UserController(HttpClientHelper httpClientHelper)
+        {
+            _httpClientHelper = httpClientHelper;
+            _httpClientHelper.baseUri = new Uri("http://localhost:55205/");
+        }
+
+        public IActionResult Index()
         {
             int id = 1;
-            string baseUrl = "http://localhost:55205/api/users";
-            string APIUrl = $"{baseUrl}/{id}";
-            string response = await HttpClientHelper.ApiGet(APIUrl);
-            User user = JsonConvert.DeserializeObject<User>(response);
 
-            baseUrl = "http://localhost:55205/api/TrainingSessions/user";
-            APIUrl = $"{baseUrl}/{id}";
-            response = await HttpClientHelper.ApiGet(APIUrl);
+            User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
-            user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
+            user.TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "");
+            //string baseUrl = "http://localhost:55205/api/users";
+            //string APIUrl = $"{baseUrl}/{id}";
+
+            //string response = await HttpClientHelper.ApiGet(APIUrl);
+            //User user = JsonConvert.DeserializeObject<User>(response);
+
+            //baseUrl = "http://localhost:55205/api/TrainingSessions/user";
+            //APIUrl = $"{baseUrl}/{id}";
+            //response = await HttpClientHelper.ApiGet(APIUrl);
+
+            //user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
 
             return View(user);
 
@@ -33,19 +46,19 @@ namespace DemensDel2.Controllers
         [HttpPost]
         public string CreateTrainingSession(DateTime date)
         {
-            string APIUrl = "http://localhost:55205/api/TrainingSessions";
-            ;
+            //string APIUrl = "http://localhost:55205/api/TrainingSessions";
+            
 
-            TrainingSession trainingSession = new TrainingSession
-            {
-                Date = date,
-                User = new User
-                {
-                    Id = 1
-                }
-            };
+            //TrainingSession trainingSession = new TrainingSession
+            //{
+            //    Date = date,
+            //    User = new User
+            //    {
+            //        Id = 1
+            //    }
+            //};
 
-            HttpClientHelper.ApiPost(APIUrl,trainingSession);
+            //HttpClientHelper.ApiPost(APIUrl,trainingSession);
             return "hej";
         }
 
@@ -103,54 +116,62 @@ namespace DemensDel2.Controllers
         //[HttpGet("{id}")]
         //public async Task<IActionResult> Exercise(int id)
 
-            public IActionResult Exercise(int id)
+        
+        //[HttpGet("User/Exercise/{id}")]
+        public IActionResult Exercise(int id)
+        {
+            List<Exercise> Exercises = new List<Exercise>()
             {
-
-            TrainingSession t = new TrainingSession()
-            {
-                Date = DateTime.Now,
-                Exercises = new List<Exercise>()
+                new Exercise()
                 {
-                    new Exercise()
+                    Id = 1,
+                    PaintLevel = 23,
+                    Effort = 21,
+                    ExecutionRate = 21,
+                    ExerciseType = new ExerciseType()
                     {
-                        PaintLevel = 23,
-                        Effort = 21,
-                        ExecutionRate = 21,
-                        ExerciseType = new ExerciseType()
-                        {
-                            Name = "Arm løftning",
-                            Duration = 20,
-                            Difficulty = 4,
-                            Description = "Løft begge arme",
-                            MuscleGroup = "Arme"
-                        }
-                    },
-                    new Exercise()
-                    {
-                        PaintLevel = 17,
-                        Effort = 12,
-                        ExecutionRate = 70,
-                        ExerciseType = new ExerciseType()
-                        {
-                            Name = "Ben løftning",
-                            Duration = 12,
-                            Difficulty = 4,
-                            Description = "Løft begge ben",
-                            MuscleGroup = "Ben"
-                        }
+                        Name = "Arm løftning",
+                        Duration = 20,
+                        Difficulty = 4,
+                        Description = "Løft begge arme",
+                        MuscleGroup = "Arme"
                     }
                 },
+                new Exercise()
+                {
+                    Id = 2,
+                    PaintLevel = 17,
+                    Effort = 12,
+                    ExecutionRate = 70,
+                    ExerciseType = new ExerciseType()
+                    {
+                        Name = "Ben løftning",
+                        Duration = 12,
+                        Difficulty = 4,
+                        Description = "Løft begge ben",
+                        MuscleGroup = "Ben"
+                    }
+                }
             };
-            //ExerciseDTO exercise = new ExerciseDTO() {
-            //    PaintLevel = 23,
-            //    Effort = 21,
-            //    ExecutionRate = 21,
-            //    Name = "Arm løftning",
-            //    Duration = 20,
-            //    Difficulty = 4,
-            //    Description = "Løft begge arme",
-            //    MuscleGroup = "Arme"
-            //};
+
+            Dictionary<int, string> eNames = new Dictionary<int, string>();
+            foreach (Exercise e in Exercises)
+            {
+                eNames.Add(e.Id ,e.ExerciseType.Name);
+            }
+            ExerciseDTO exerciseDTO = new ExerciseDTO()
+            {
+                ExerciseNames = eNames
+            };
+
+            if (id != 0)
+            {
+                exerciseDTO.SlectedExercise = Exercises[id - 1];
+            }
+            else
+            {
+                exerciseDTO.SlectedExercise = null;
+            }
 
             //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
 
@@ -167,7 +188,7 @@ namespace DemensDel2.Controllers
             //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
             //    }
             //}
-            return View(t);
+            return View(exerciseDTO);
         }
 
     }
