@@ -16,5 +16,7 @@ namespace DemensDel2.Models
         public string Description { get; set; }
         public string MuscleGroup { get; set; }
         public int Difficulty { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

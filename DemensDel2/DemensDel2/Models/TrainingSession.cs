@@ -14,6 +14,9 @@ namespace DemensDel2.Models
         public double Percent = 1;
         public DateTime Date { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         // Navigation properties
         public virtual User User { get; set; }
         public virtual ICollection<Exercise> Exercises { get; set; }

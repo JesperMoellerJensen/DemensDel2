@@ -17,7 +17,21 @@ namespace DemensDel2API.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
 
+            modelBuilder.Entity<TrainingSession>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
+
+            modelBuilder.Entity<Exercise>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
+
+            modelBuilder.Entity<ExerciseType>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
         }
     }
 }
