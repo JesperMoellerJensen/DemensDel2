@@ -118,44 +118,14 @@ namespace DemensDel2.Controllers
 
         
         //[HttpGet("User/Exercise/{id}")]
-        public IActionResult Exercise(int id)
+        public IActionResult TrainingSession(int id)
         {
-            List<Exercise> Exercises = new List<Exercise>()
-            {
-                new Exercise()
-                {
-                    Id = 1,
-                    PaintLevel = 23,
-                    Effort = 21,
-                    ExecutionRate = 21,
-                    ExerciseType = new ExerciseType()
-                    {
-                        Name = "Arm løftning",
-                        Duration = 20,
-                        Difficulty = 4,
-                        Description = "Løft begge arme",
-                        MuscleGroup = "Arme"
-                    }
-                },
-                new Exercise()
-                {
-                    Id = 2,
-                    PaintLevel = 17,
-                    Effort = 12,
-                    ExecutionRate = 70,
-                    ExerciseType = new ExerciseType()
-                    {
-                        Name = "Ben løftning",
-                        Duration = 12,
-                        Difficulty = 4,
-                        Description = "Løft begge ben",
-                        MuscleGroup = "Ben"
-                    }
-                }
-            };
+            int _id = 1;
+
+            List<Exercise> exercises = _httpClientHelper.Get<List<Exercise>>("api/exercises/trainingsession/" + _id + "");
 
             Dictionary<int, string> eNames = new Dictionary<int, string>();
-            foreach (Exercise e in Exercises)
+            foreach (Exercise e in exercises)
             {
                 eNames.Add(e.Id ,e.ExerciseType.Name);
             }
@@ -166,7 +136,7 @@ namespace DemensDel2.Controllers
 
             if (id != 0)
             {
-                exerciseDTO.SlectedExercise = Exercises[id - 1];
+                exerciseDTO.SlectedExercise = exercises[id - 1];
             }
             else
             {
