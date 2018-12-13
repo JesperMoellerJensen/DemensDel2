@@ -12,7 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DemensDel2API.DataAccess;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DemensDel2API
 {
@@ -37,6 +38,16 @@ namespace DemensDel2API
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddDbContext<IdentityDbContext>(options =>
+            {
+                var connectionString = configuration.GetConnectionString("DemensLoginDbContext");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<DemensLoginDbContext>()
+                .AddDefaultTokenProviders();
+
             //Mapper.Initialize(cfg => {
             //    cfg.CreateMap<User, UserDTO>();
             //    cfg.CreateMap<UserDTO, User>();
@@ -52,6 +63,8 @@ namespace DemensDel2API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
