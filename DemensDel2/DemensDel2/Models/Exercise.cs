@@ -15,6 +15,8 @@ namespace DemensDel2.Models
         public double ExecutionRate { get; set; }
         public int PaintLevel { get; set; }
         public int Effort { get; set; }
+        [Timestamp]
+        public  byte[] RowVersion { get; set; }
 
         // Navigation properties
         public virtual TrainingSession TrainingSession { get; set; }

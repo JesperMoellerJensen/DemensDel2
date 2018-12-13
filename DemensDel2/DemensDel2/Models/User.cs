@@ -21,8 +21,12 @@ namespace DemensDel2.Models
         public string City { get; set; }
         public string Address { get; set; }
         public int ZipCode { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         // Navigation properties
         public virtual ICollection<TrainingSession> TrainingSessions { get; set; }
+
+
     }
 }
