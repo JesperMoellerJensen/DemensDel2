@@ -18,7 +18,6 @@ namespace DemensDel2.Controllers
         {
             _httpClientHelper = httpClientHelper;
             _httpClientHelper.baseUri = new Uri("http://localhost:55205/");
-
         }
 
         public IActionResult Index()
