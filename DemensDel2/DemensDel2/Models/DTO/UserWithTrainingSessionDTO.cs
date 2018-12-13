@@ -2,27 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DemensDel2.Models
+namespace DemensDel2.Models.DTO
 {
-    public class User
+    public class UserWithTrainingSessionDTO
     {
-        // Primary Key
-        public int Id { get; set; }
-
-        //Reference to User Identity data
-        public string UserIdentityID { get; set; }
-
         public string Name { get; set; }
         public int Age { get; set; }
         public int TelephoneNumber { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public int ZipCode { get; set; }
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
-
+        public List<TrainingSession> TrainingSessions { get; set; }
     }
 }

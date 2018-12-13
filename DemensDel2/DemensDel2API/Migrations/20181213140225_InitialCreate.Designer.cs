@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemensDel2API.Migrations
 {
     [DbContext(typeof(DemensDbContext))]
-    [Migration("20181204113030_InitialCreate")]
+    [Migration("20181213140225_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -27,13 +27,11 @@ namespace DemensDel2API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Effort");
-
-                    b.Property<double>("ExecutionRate");
-
                     b.Property<int?>("ExerciseTypeId");
 
-                    b.Property<int>("PaintLevel");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int?>("TrainingSessionId");
 
@@ -44,6 +42,35 @@ namespace DemensDel2API.Migrations
                     b.HasIndex("TrainingSessionId");
 
                     b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("DemensDel2.Models.ExerciseResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Effort");
+
+                    b.Property<double>("ExecutionRate");
+
+                    b.Property<int?>("ExerciseId");
+
+                    b.Property<int>("PaintLevel");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExerciseResults");
                 });
 
             modelBuilder.Entity("DemensDel2.Models.ExerciseType", b =>
@@ -62,25 +89,13 @@ namespace DemensDel2API.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("Id");
 
                     b.ToTable("ExerciseTypes");
-                });
-
-            modelBuilder.Entity("DemensDel2.Models.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("DemensDel2.Models.TrainingSession", b =>
@@ -91,11 +106,11 @@ namespace DemensDel2API.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("LogId");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LogId");
 
                     b.ToTable("TrainingSessions");
                 });
@@ -114,6 +129,10 @@ namespace DemensDel2API.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<int>("TelephoneNumber");
 
                     b.Property<string>("UserIdentityID");
@@ -125,6 +144,23 @@ namespace DemensDel2API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DemensDel2.Models.UserTrainingSessionRelation", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("TrainingSessionId");
+
+                    b.Property<double>("Percent");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("UserId", "TrainingSessionId");
+
+                    b.ToTable("UserTrainingSessionRelations");
+                });
+
             modelBuilder.Entity("DemensDel2.Models.Exercise", b =>
                 {
                     b.HasOne("DemensDel2.Models.ExerciseType", "ExerciseType")
@@ -132,23 +168,19 @@ namespace DemensDel2API.Migrations
                         .HasForeignKey("ExerciseTypeId");
 
                     b.HasOne("DemensDel2.Models.TrainingSession", "TrainingSession")
-                        .WithMany("Exercises")
+                        .WithMany()
                         .HasForeignKey("TrainingSessionId");
                 });
 
-            modelBuilder.Entity("DemensDel2.Models.Log", b =>
+            modelBuilder.Entity("DemensDel2.Models.ExerciseResult", b =>
                 {
-                    b.HasOne("DemensDel2.Models.User", "User")
-                        .WithOne("Log")
-                        .HasForeignKey("DemensDel2.Models.Log", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                    b.HasOne("DemensDel2.Models.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId");
 
-            modelBuilder.Entity("DemensDel2.Models.TrainingSession", b =>
-                {
-                    b.HasOne("DemensDel2.Models.Log", "Log")
-                        .WithMany("TrainingSessions")
-                        .HasForeignKey("LogId");
+                    b.HasOne("DemensDel2.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

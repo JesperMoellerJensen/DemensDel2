@@ -12,9 +12,6 @@ namespace DemensDel2.Models
         // Primary Key
         public int Id { get; set; }
 
-        public double ExecutionRate { get; set; }
-        public int PaintLevel { get; set; }
-        public int Effort { get; set; }
         [Timestamp]
         public  byte[] RowVersion { get; set; }
 

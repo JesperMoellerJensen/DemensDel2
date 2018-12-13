@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace DemensDel2.Models
 {
-    public class TrainingSession
+    public class UserTrainingSessionRelation
     {
-        // Primary Key
-        public int Id { get; set; }
-
-        public DateTime Date { get; set; }
+        public int UserId { get; set; }
+        public int TrainingSessionId { get; set; }
+        public virtual double Percent { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+
     }
 }

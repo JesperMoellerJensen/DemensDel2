@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace DemensDel2.Models
 {
-    public class ExerciseType
+    public class ExerciseResult
     {
-        // Primary Key
+        //Primary Key
         public int Id { get; set; }
 
-        public string Name { get; set; }
-        public float Duration { get; set; }
-        public string Description { get; set; }
-        public string MuscleGroup { get; set; }
-        public int Difficulty { get; set; }
+        public double ExecutionRate { get; set; }
+        public int PaintLevel { get; set; }
+        public int Effort { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        public virtual Exercise Exercise { get; set; }
+        public virtual User User { get; set; }
     }
 }

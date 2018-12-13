@@ -40,5 +40,17 @@ namespace DemensDel2.Controllers
                 new SelectListItem {Text = "Løft Ben", Value = "2"}
             };
         }
+
+        [HttpPost]
+        public IActionResult CreateTrainingsession(NewTrainingSession trainingSession)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Data invalid");
+                return View("Index");
+            }
+
+            return View("Index");
+        }
     }
 }
