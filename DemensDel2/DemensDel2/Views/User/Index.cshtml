@@ -43,17 +43,24 @@
             @Html.DisplayFor(m => m.Address)
         </dd>
     </dl>
+    <div class="ExerciseList">
+        <h2>Træningssessioner</h2>
+        @foreach (var item in Model.TrainingSessions)
+        {
+            <a href="@Url.Action("TrainingSession", "User", new { Id = item.Id })">
+                @item.Date.Date.ToString("d")
+            </a>
+        }
+    </div>
 </div>
 
 <div class="ExerciseGraph">
-    I AM A GRAPH
+    <canvas id="chart" data-Exercise="1,1" data-ExerciseData="2,2"></canvas>
 </div>
 
-<div class="ExerciseList">
-    @foreach (var item in Model.TrainingSessions)
-    {
-    <a href="@Url.Action("Trainingssession", "User", new { Id = item.Id })">
-        @item.Date.Date.ToString("d")
-    </a>
-    }
-</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/Chart.js"></script>
+}

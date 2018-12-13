@@ -1,17 +1,32 @@
 ﻿.UserInfo {
     float: left;
     background: grey; 
+    width: 30%;
 }
 
 .ExerciseGraph {
     display: block;
     float: left;
-    width: 400px;
-    height: 300px;
+    width: calc(70% - 40px);
+    height: 400px;
     margin: 0 20px;
-    background: gold;
+}
+.ExerciseList h2 {
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: white;
 }
 
+.ExerciseList a {
+    float: left;
+    color: blue;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+}
 .ExerciseList {
     display: block;
     float: left;
