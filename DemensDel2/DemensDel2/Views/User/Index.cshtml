@@ -52,7 +52,7 @@
 <div class="ExerciseList">
     @foreach (var item in Model.TrainingSessions)
     {
-    <a href="@Url.Action("Trainingssession", "User", new { Id = item.Id })">
+    <a href="@Url.Action("Trainingsession", "User", new { Id = item.Id })">
         @item.Date.Date.ToString("d")
     </a>
     }

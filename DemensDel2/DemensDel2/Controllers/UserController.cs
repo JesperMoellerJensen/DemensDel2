@@ -52,13 +52,11 @@ namespace DemensDel2.Controllers
             //_httpClientHelper.Post<TrainingSession>(trainingSession, "TrainingSessions");
             return RedirectToAction("Index");
         }
-        
-        //[HttpGet("User/Exercise/{id}")]
-        public IActionResult TrainingSession(int id)
-        {
-            int _id = 1;
 
-            List<Exercise> exercises = _httpClientHelper.Get<List<Exercise>>("api/exercises/trainingsession/" + _id + "");
+        [HttpGet("User/TrainingSession/{tId}/{eId?}")]
+        public IActionResult TrainingSession(int tId, int? eId = null)
+        {
+            List<Exercise> exercises = _httpClientHelper.Get<List<Exercise>>("api/exercises/trainingsession/" + tId + "");
 
             Dictionary<int, string> eNames = new Dictionary<int, string>();
             foreach (Exercise e in exercises)
@@ -70,9 +68,9 @@ namespace DemensDel2.Controllers
                 ExerciseNames = eNames
             };
 
-            if (id != 0)
+            if (eId != null)
             {
-                exerciseDTO.SlectedExercise = exercises[id - 1];
+                exerciseDTO.SlectedExercise = exercises.First(e => e.Id == eId);
             }
             else
             {

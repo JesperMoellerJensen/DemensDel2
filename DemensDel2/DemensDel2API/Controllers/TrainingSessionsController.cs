@@ -54,6 +54,7 @@ namespace DemensDel2API.Controllers
             List<TrainingSession> trainingSessions = _context.TrainingSessions.Where(l => l.User.Id == id).ToList();
 
             return trainingSessions;
+
         }
 
         // PUT: api/TrainingSessions/5
