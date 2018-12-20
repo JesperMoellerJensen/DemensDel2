@@ -11,10 +11,15 @@ namespace DemensDel2.Models
         // Primary Key
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
+        [Required]
         public float Duration { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string MuscleGroup { get; set; }
+        [Required]
         public int Difficulty { get; set; }
 
         [Timestamp]

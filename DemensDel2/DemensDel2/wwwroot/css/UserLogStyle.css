@@ -1,7 +1,32 @@
-﻿.UserInfo {
+﻿body, html{
+    height: 100%;
+}
+
+.UserInfo {
     float: left;
-    background: grey; 
+    background: #222;
     width: 30%;
+    color: white;
+    height: 600px;
+}
+
+.UserInfo h3{
+    float: left;
+    color: white;
+    text-align:center;
+    width: calc(100% - 50px);
+    margin: 0 25px;
+    border-bottom: 3px solid white;
+    height: 50px;
+    margin-bottom: 20px;
+    line-height: 50px;
+}
+
+.UserInfo dt{
+    font-weight: 900;
+}
+.UserIndo dd{
+    font-weight: 100;
 }
 
 .ExerciseGraph {
@@ -31,5 +56,4 @@
     display: block;
     float: left;
     width: 300px;
-    background: grey;
 }

@@ -10,9 +10,11 @@ namespace DemensDel2.Models
     {
         //Primary Key
         public int Id { get; set; }
-
+        [Required]
         public double ExecutionRate { get; set; }
+        [Required]
         public int PaintLevel { get; set; }
+        [Required]
         public int Effort { get; set; }
 
         [Timestamp]

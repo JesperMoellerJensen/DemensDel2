@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace DemensDel2.Helpers
 {
-    public class HttpClientHelper
+    public class HttpClientHelper : IHttpHelper
     {
         public Uri baseUri { get; set; }
 

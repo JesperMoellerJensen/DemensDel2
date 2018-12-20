@@ -13,9 +13,9 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        private HttpClientHelper _httpClientHelper;
+        private IHttpHelper _httpClientHelper;
 
-        public UserController(HttpClientHelper httpClientHelper)
+        public UserController(IHttpHelper httpClientHelper)
         {
             _httpClientHelper = httpClientHelper;
             _httpClientHelper.baseUri = new Uri("http://localhost:55205/");
@@ -81,27 +81,12 @@ namespace DemensDel2.Controllers
             if (eId != null)
             {
                 exerciseDTO.SlectedExercise = exercises.First(e => e.Id == eId);
+                exerciseDTO.ExerciseResult = _httpClientHelper.Get<ExerciseResult>("api/exerciseresults/" + exerciseDTO.SlectedExercise.Id);
             }
             else
             {
                 exerciseDTO.SlectedExercise = null;
             }
-
-            //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(apiUrl);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var data = await response.Content.ReadAsStringAsync();
-            //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
-            //    }
-            //}
             return View(exerciseDTO);
         }
 
