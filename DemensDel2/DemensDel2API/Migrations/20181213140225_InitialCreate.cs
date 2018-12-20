@@ -18,11 +18,26 @@ namespace DemensDel2API.Migrations
                     Duration = table.Column<float>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     MuscleGroup = table.Column<string>(nullable: true),
-                    Difficulty = table.Column<int>(nullable: false)
+                    Difficulty = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrainingSessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingSessions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,7 +52,8 @@ namespace DemensDel2API.Migrations
                     TelephoneNumber = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<int>(nullable: false)
+                    ZipCode = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,42 +61,17 @@ namespace DemensDel2API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Logs",
+                name: "UserTrainingSessionRelations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    TrainingSessionId = table.Column<int>(nullable: false),
+                    Percent = table.Column<double>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Logs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Logs_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TrainingSessions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(nullable: false),
-                    LogId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TrainingSessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TrainingSessions_Logs_LogId",
-                        column: x => x.LogId,
-                        principalTable: "Logs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_UserTrainingSessionRelations", x => new { x.UserId, x.TrainingSessionId });
                 });
 
             migrationBuilder.CreateTable(
@@ -89,9 +80,7 @@ namespace DemensDel2API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ExecutionRate = table.Column<double>(nullable: false),
-                    PaintLevel = table.Column<int>(nullable: false),
-                    Effort = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     TrainingSessionId = table.Column<int>(nullable: true),
                     ExerciseTypeId = table.Column<int>(nullable: true)
                 },
@@ -112,6 +101,46 @@ namespace DemensDel2API.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ExerciseResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ExecutionRate = table.Column<double>(nullable: false),
+                    PaintLevel = table.Column<int>(nullable: false),
+                    Effort = table.Column<int>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    ExerciseId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExerciseResults_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExerciseResults_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseResults_ExerciseId",
+                table: "ExerciseResults",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseResults_UserId",
+                table: "ExerciseResults",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Exercises_ExerciseTypeId",
                 table: "Exercises",
@@ -121,35 +150,27 @@ namespace DemensDel2API.Migrations
                 name: "IX_Exercises_TrainingSessionId",
                 table: "Exercises",
                 column: "TrainingSessionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Logs_UserId",
-                table: "Logs",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_LogId",
-                table: "TrainingSessions",
-                column: "LogId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ExerciseResults");
+
+            migrationBuilder.DropTable(
+                name: "UserTrainingSessionRelations");
+
+            migrationBuilder.DropTable(
                 name: "Exercises");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "ExerciseTypes");
 
             migrationBuilder.DropTable(
                 name: "TrainingSessions");
-
-            migrationBuilder.DropTable(
-                name: "Logs");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

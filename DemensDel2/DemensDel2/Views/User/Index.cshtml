@@ -1,10 +1,12 @@
-﻿@using Microsoft.AspNetCore.Rewrite.Internal
-@model User
+﻿@using DemensDel2.Models.DTO
+@using Microsoft.AspNetCore.Rewrite.Internal
+@model UserWithTrainingSessionDTO
 @{
     ViewData["Title"] = "User";
 }
 
 <div class="UserInfo">
+    <h3>Bruger Info</h3>
     <dl class="dl-horizontal">
         <dt>
             Navn
@@ -43,30 +45,24 @@
             @Html.DisplayFor(m => m.Address)
         </dd>
     </dl>
+    <div class="ExerciseList">
+        <h2>Træningssessioner</h2>
+        @foreach (var item in Model.TrainingSessions)
+        {
+            <a href="@Url.Action("TrainingSession", "User", new { Id = item.Id })">
+                @item.Date.Date.ToString("d")
+            </a>
+        }
+    </div>
 </div>
 
 <div class="ExerciseGraph">
-    I AM A GRAPH
+    <canvas id="chart" data-Exercise="1,2,3" data-ExerciseData="80,54,92"></canvas>
 </div>
 
-<div class="ExerciseList">
-    <form action='@Url.Action("CreateTrainingSession","User")' method="post">
-        <input type="date" name="date" />
-        <input type="submit" value="Opret træningssession" />
-    </form>
 
-    @foreach (var item in Model.TrainingSessions)
-    {
-        <a>
-            <tr>
-                <td>
-                    @item.Date.Date.ToString("d")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Percent)<br />
-                </td>
-
-            </tr>
-        </a>
-    }
-</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/Chart.js"></script>
+}

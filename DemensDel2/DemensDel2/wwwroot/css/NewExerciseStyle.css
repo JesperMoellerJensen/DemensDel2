@@ -34,3 +34,8 @@
     background-color: #555555;
 }
 
+.ExerciseList{
+    width: 100%;
+    float: left;
+    height: auto;
+}

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using DemensDel2.Helpers;
 using DemensDel2.Models;
+using DemensDel2.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,9 +13,9 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        private HttpClientHelper _httpClientHelper;
+        private IHttpHelper _httpClientHelper;
 
-        public UserController(HttpClientHelper httpClientHelper)
+        public UserController(IHttpHelper httpClientHelper)
         {
             _httpClientHelper = httpClientHelper;
             _httpClientHelper.baseUri = new Uri("http://localhost:55205/");
@@ -26,136 +27,49 @@ namespace DemensDel2.Controllers
 
             User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
-            user.TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "");
-            //string baseUrl = "http://localhost:55205/api/users";
-            //string APIUrl = $"{baseUrl}/{id}";
+            UserWithTrainingSessionDTO userDto = new UserWithTrainingSessionDTO
+            {
+                Name = user.Name,
+                Address = user.Address,
+                Age = user.Age,
+                City = user.City,
+                TelephoneNumber = user.TelephoneNumber,
+                TrainingSessions = _httpClientHelper.Get<List<TrainingSession>>("api/TrainingSessions/user/" + id + "")
+            };
 
-            //string response = await HttpClientHelper.ApiGet(APIUrl);
-            //User user = JsonConvert.DeserializeObject<User>(response);
-
-            //baseUrl = "http://localhost:55205/api/TrainingSessions/user";
-            //APIUrl = $"{baseUrl}/{id}";
-            //response = await HttpClientHelper.ApiGet(APIUrl);
-
-            //user.TrainingSessions = JsonConvert.DeserializeObject<List<TrainingSession>>(response);
-
-            return View(user);
-
+            return View(userDto);
         }
 
         [HttpPost]
-        public string CreateTrainingSession(DateTime date)
+        public IActionResult Index(DateTime date)
         {
-            //string APIUrl = "http://localhost:55205/api/TrainingSessions";
-            
+            //if (!ModelState.IsValid)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Data invalid");
+            //    return View();
+            //}
+            //int id = 1;
+
+            //User user = _httpClientHelper.Get<User>("api/users/" + id + "");
 
             //TrainingSession trainingSession = new TrainingSession
             //{
             //    Date = date,
-            //    User = new User
-            //    {
-            //        Id = 1
-            //    }
+            //    User = user
             //};
 
-            //HttpClientHelper.ApiPost(APIUrl,trainingSession);
-            return "hej";
+
+            //_httpClientHelper.Post<TrainingSession>(trainingSession, "TrainingSessions");
+            return RedirectToAction("Index");
         }
 
-
-        //[HttpPost]
-        //public IActionResult Bid(AuctionItem auctionItem)
-        //{
-        //    string message = "";
-        //    Bid bid = new Bid()
-        //    {
-        //        ItemNumber = auctionItem.ItemNumber,
-        //        CustomName = auctionItem.BidCustomName,
-        //        CustomPhone = auctionItem.BidCustomPhone,
-        //        Price = auctionItem.BidPrice
-        //    };
-
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.BaseAddress = new Uri(baseUrl);
-
-        //        //HTTP POST
-        //        var postTask = client.PostAsJsonAsync<Bid>("auction", bid); //1 argument is name of api controller
-        //        postTask.Wait();
-        //        message = postTask.Result.StatusCode.ToString();
-        //        var result = postTask.Result;
-
-        //        if (result.IsSuccessStatusCode)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
-        //        {
-        //            message = "Wrong info, try again";
-        //        }
-        //        else if (result.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
-        //        {
-        //            message = "Bid to low";
-        //        }
-        //        else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
-        //        {
-        //            message = "Item not found";
-        //        }
-        //        else
-        //        {
-        //            message = "Error, try again";
-        //        }
-
-        //    }
-
-        //    ModelState.AddModelError(string.Empty, "Something went wrong: " + message);
-
-        //    return View();
-        //}
-
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Exercise(int id)
-
-        
-        //[HttpGet("User/Exercise/{id}")]
-        public IActionResult Exercise(int id)
+        [HttpGet("User/TrainingSession/{tId}/{eId?}")]
+        public IActionResult TrainingSession(int tId, int? eId = null)
         {
-            List<Exercise> Exercises = new List<Exercise>()
-            {
-                new Exercise()
-                {
-                    Id = 1,
-                    PaintLevel = 23,
-                    Effort = 21,
-                    ExecutionRate = 21,
-                    ExerciseType = new ExerciseType()
-                    {
-                        Name = "Arm løftning",
-                        Duration = 20,
-                        Difficulty = 4,
-                        Description = "Løft begge arme",
-                        MuscleGroup = "Arme"
-                    }
-                },
-                new Exercise()
-                {
-                    Id = 2,
-                    PaintLevel = 17,
-                    Effort = 12,
-                    ExecutionRate = 70,
-                    ExerciseType = new ExerciseType()
-                    {
-                        Name = "Ben løftning",
-                        Duration = 12,
-                        Difficulty = 4,
-                        Description = "Løft begge ben",
-                        MuscleGroup = "Ben"
-                    }
-                }
-            };
+            List<Exercise> exercises = _httpClientHelper.Get<List<Exercise>>("api/exercises/trainingsession/" + tId + "");
 
             Dictionary<int, string> eNames = new Dictionary<int, string>();
-            foreach (Exercise e in Exercises)
+            foreach (Exercise e in exercises)
             {
                 eNames.Add(e.Id ,e.ExerciseType.Name);
             }
@@ -164,30 +78,15 @@ namespace DemensDel2.Controllers
                 ExerciseNames = eNames
             };
 
-            if (id != 0)
+            if (eId != null)
             {
-                exerciseDTO.SlectedExercise = Exercises[id - 1];
+                exerciseDTO.SlectedExercise = exercises.First(e => e.Id == eId);
+                exerciseDTO.ExerciseResult = _httpClientHelper.Get<ExerciseResult>("api/exerciseresults/" + exerciseDTO.SlectedExercise.Id);
             }
             else
             {
                 exerciseDTO.SlectedExercise = null;
             }
-
-            //string apiUrl = "http://localhost:55205/api/exercise" + "/" + id;
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(apiUrl);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var data = await response.Content.ReadAsStringAsync();
-            //        exercise = Newtonsoft.Json.JsonConvert.DeserializeObject<Exercise>(data);
-            //    }
-            //}
             return View(exerciseDTO);
         }
 
