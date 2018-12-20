@@ -8,7 +8,7 @@ namespace DemensDel2API.DataAccess
     {
         public DemensDbContext(DbContextOptions<DemensDbContext> options) : base(options)
         {
-            //Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<User> Users { get; set; }

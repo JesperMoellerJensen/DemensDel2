@@ -13,9 +13,9 @@ namespace DemensDel2.Controllers
 {
     public class UserController : Controller
     {
-        private IHttpHelper _httpClientHelper;
+        private HttpClientHelper _httpClientHelper;
 
-        public UserController(IHttpHelper httpClientHelper)
+        public UserController(HttpClientHelper httpClientHelper)
         {
             _httpClientHelper = httpClientHelper;
             _httpClientHelper.baseUri = new Uri("http://localhost:55205/");
@@ -38,29 +38,6 @@ namespace DemensDel2.Controllers
             };
 
             return View(userDto);
-        }
-
-        [HttpPost]
-        public IActionResult Index(DateTime date)
-        {
-            //if (!ModelState.IsValid)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Data invalid");
-            //    return View();
-            //}
-            //int id = 1;
-
-            //User user = _httpClientHelper.Get<User>("api/users/" + id + "");
-
-            //TrainingSession trainingSession = new TrainingSession
-            //{
-            //    Date = date,
-            //    User = user
-            //};
-
-
-            //_httpClientHelper.Post<TrainingSession>(trainingSession, "TrainingSessions");
-            return RedirectToAction("Index");
         }
 
         [HttpGet("User/TrainingSession/{tId}/{eId?}")]
