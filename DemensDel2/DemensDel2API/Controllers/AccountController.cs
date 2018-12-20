@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DemensDel2.Models;
+using DemensDel2.Models.Account;
 using DemensDel2API.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -41,8 +43,39 @@ namespace DemensDel2API.Controllers
         // POST: api/Account
         [HttpPost]
         [Authorize]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Register(RegisterViewModel registration)
         {
+            if (ModelState.IsValid)
+            {
+                IdentityUser user = new IdentityUser()
+                {
+                    Email = registration.EmailAddress,
+                    UserName = registration.EmailAddress
+                };
+
+                var result = await _userManager.CreateAsync(user, registration.Password);
+
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Bruger");
+
+                    User newUser = new User() { UserIdentityID = user.Id };
+                    _db.Users.Add(newUser);
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Home", "Profile");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+            return View(registration);
         }
 
         // PUT: api/Account/5
